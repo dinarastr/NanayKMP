@@ -4,13 +4,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.dinarastepina.nanaykmp.HomeMenu
-import org.jetbrains.compose.resources.StringResource
+import com.dinarastepina.nanaykmp.presentation.components.HomeMenu
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.favorite
 import nanaykmp.composeapp.generated.resources.home
@@ -19,6 +16,7 @@ import nanaykmp.composeapp.generated.resources.ic_home
 import nanaykmp.composeapp.generated.resources.ic_info
 import nanaykmp.composeapp.generated.resources.info
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 
 
 sealed class Screen(
