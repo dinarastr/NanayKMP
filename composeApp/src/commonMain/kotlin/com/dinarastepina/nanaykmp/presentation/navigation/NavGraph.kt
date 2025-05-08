@@ -1,0 +1,56 @@
+package com.dinarastepina.nanaykmp.presentation.navigation
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.dinarastepina.nanaykmp.HomeMenu
+import org.jetbrains.compose.resources.StringResource
+import nanaykmp.composeapp.generated.resources.Res
+import nanaykmp.composeapp.generated.resources.favorite
+import nanaykmp.composeapp.generated.resources.home
+import nanaykmp.composeapp.generated.resources.ic_heart
+import nanaykmp.composeapp.generated.resources.ic_home
+import nanaykmp.composeapp.generated.resources.ic_info
+import nanaykmp.composeapp.generated.resources.info
+import org.jetbrains.compose.resources.DrawableResource
+
+
+sealed class Screen(
+    val route: String,
+    val icon: DrawableResource,
+    val label: StringResource
+) {
+    data object Home: Screen("home", Res.drawable.ic_home, Res.string.home)
+    data object Favorite: Screen( "favorite", Res.drawable.ic_heart, Res.string.favorite)
+    data object Info: Screen("info", Res.drawable.ic_info, Res.string.info)
+}
+
+@Composable
+fun NavGraph(
+    paddingValues: PaddingValues,
+    navHostController: NavHostController
+) {
+    NavHost(
+        navController = navHostController,
+        startDestination = Screen.Home.route,
+        modifier = Modifier.padding(paddingValues)
+    ) {
+        composable(
+            Screen.Home.route
+        ) {
+            HomeMenu()
+        }
+        composable(
+            Screen.Favorite.route
+        ) {  }
+        composable(
+            Screen.Info.route
+        ) {  }
+    }
+}
