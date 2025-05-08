@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Nanay</string>
+    <string name="dictionary">Словарь</string>
+    <string name="phrasebook">Разговорник</string>
+    <string name="home">Главная</string>
+    <string name="info">О приложении</string>
+    <string name="favorite">Избранное</string>
+</resources>
