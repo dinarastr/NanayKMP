@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dinarastepina.nanaykmp.presentation.about.AboutApp
 import com.dinarastepina.nanaykmp.presentation.components.HomeMenu
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.favorite
@@ -46,9 +47,11 @@ fun NavGraph(
         }
         composable(
             Screen.Favorite.route
-        ) {  }
+        ) {}
         composable(
             Screen.Info.route
-        ) {  }
+        ) {
+            AboutApp()
+        }
     }
 }
