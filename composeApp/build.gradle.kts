@@ -7,11 +7,12 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -33,6 +34,10 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.room.runtime)
+            implementation(libs.room.ktx)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -43,8 +48,14 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.navigation.compose)
 
-            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta01")
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.lifecycle.viewmodel.compose)
         }
     }
 }
@@ -78,5 +89,13 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
