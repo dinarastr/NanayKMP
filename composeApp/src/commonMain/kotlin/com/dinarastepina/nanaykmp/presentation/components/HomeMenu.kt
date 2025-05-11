@@ -1,5 +1,6 @@
 package com.dinarastepina.nanaykmp.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -26,7 +27,7 @@ fun HomeMenu(
         verticalAlignment = Alignment.CenterVertically
     ) {
         SectionCard(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).clickable { onDictionaryClick() },
             title = stringResource(Res.string.dictionary),
             drawableResource = Res.drawable.gummy_notebook,
             borderColor = purple70,

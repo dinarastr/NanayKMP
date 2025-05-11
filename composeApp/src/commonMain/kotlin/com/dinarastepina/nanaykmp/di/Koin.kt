@@ -1,5 +1,7 @@
 package com.dinarastepina.nanaykmp.di
 
+import androidx.room.RoomDatabase
+import com.dinarastepina.nanaykmp.data.DictionaryDataBase
 import com.dinarastepina.nanaykmp.data.getRoomDatabase
 import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
 import org.koin.core.context.startKoin
@@ -25,11 +27,12 @@ fun initKoin(config: KoinAppDeclaration? = null) =
     }
 
 val provideDatabaseModule = module {
-    single { getRoomDatabase(get()) }
+    single { getRoomDatabase(get<RoomDatabase.Builder<DictionaryDataBase>>()) }
     single { getRussianDao(get()) }
     single { getNanayDao(get()) }
 }
 
 val provideRepositoryModule = module {
+    includes(provideDatabaseModule)
     singleOf(::RussianToNanayRepositoryImpl).bind(RussianToNanayRepository::class)
 }

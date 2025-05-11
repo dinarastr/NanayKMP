@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dinarastepina.nanaykmp.presentation.about.AboutAppScreen
 import com.dinarastepina.nanaykmp.presentation.components.HomeMenu
+import com.dinarastepina.nanaykmp.presentation.dictionary.DictionaryScreen
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.dictionary
 import nanaykmp.composeapp.generated.resources.favorite
@@ -63,6 +64,11 @@ fun NavGraph(
             Screen.Info.route
         ) {
             AboutAppScreen()
+        }
+        composable(
+            Screen.Dictionary.route
+        ) {
+            DictionaryScreen()
         }
     }
 }

@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.dinarastepina.nanaykmp.presentation.about.AboutAppScreen
 import com.dinarastepina.nanaykmp.presentation.dictionary.DictionaryScreen
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.core.KoinApplication
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
