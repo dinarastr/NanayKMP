@@ -6,7 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.dinarastepina.nanaykmp.presentation.about.AboutApp
+import com.dinarastepina.nanaykmp.presentation.about.AboutAppScreen
+import com.dinarastepina.nanaykmp.presentation.dictionary.DictionaryScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,11 +25,19 @@ fun AppAndroidPreview() {
 }
 
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
     showSystemUi = true,
     showBackground = true
 )
 @Composable
 fun AboutAppAndroidPreview() {
-    AboutApp()
+    AboutAppScreen()
+}
+
+@Preview(
+    showSystemUi = true,
+    showBackground = true,
+)
+@Composable
+fun DictionaryScreenPreview() {
+    DictionaryScreen()
 }

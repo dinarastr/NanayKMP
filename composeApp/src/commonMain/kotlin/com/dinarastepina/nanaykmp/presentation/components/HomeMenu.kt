@@ -17,7 +17,10 @@ import nanaykmp.composeapp.generated.resources.question_and_answer_svgrepo_com
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun HomeMenu() {
+fun HomeMenu(
+    onDictionaryClick: () -> Unit,
+    onPhrasebookClick: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
