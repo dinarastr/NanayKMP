@@ -14,41 +14,38 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.dataWithBytes
 
-@OptIn(ExperimentalForeignApi::class) // Needed for NSFileManager
- fun getDatabaseBuilder(): RoomDatabase.Builder<DictionaryDataBase> { // iOS often doesn't need Context directly here
+private const val DATABASE_NAME: String = "nanay_dictionary.db"
+private const val PREPOPULATED_DATABASE_FILE = "files/talysh_to_russian"
+
+@OptIn(ExperimentalForeignApi::class)
+ fun getDatabaseBuilder(): RoomDatabase.Builder<DictionaryDataBase> {
     val fileManager = NSFileManager.defaultManager
     val documentsDirectory = fileManager.URLForDirectory(
         directory = NSDocumentDirectory,
         inDomain = NSUserDomainMask,
         appropriateForURL = null,
-        create = true, // Create directory if it doesn't exist
+        create = true,
         error = null,
     )
-    val dbFileName = "nanay_dictionary.db" // Your desired database file name
-    val dbFilePath = documentsDirectory?.path + "/$dbFileName"
-// Check if the database file already exists
+    val dbFilePath = documentsDirectory?.path + "/$DATABASE_NAME"
     val dbFileExists = fileManager.fileExistsAtPath(dbFilePath)
 
     if (!dbFileExists) {
-        // Database does not exist, copy from shared resources
         val dbBytes = runBlocking {
             try {
-                Res.readBytes("files/talysh_to_russian")
+                Res.readBytes(PREPOPULATED_DATABASE_FILE)
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
             }
         }
         if (dbBytes != null) {
-            // Convert ByteArray to NSData
-            val nsData = dbBytes.toNSData() // <--- Convert ByteArray to NSData
+            val nsData = dbBytes.toNSData()
             if (nsData != null) {
                 try {
-                    // Use NSFileManager's writeToFile or createFileAtPath with NSData
-                    // createFileAtPath expects raw data, writeToFile is often safer for files
                     val success = fileManager.createFileAtPath(
                         dbFilePath,
-                        nsData, // <--- Pass the NSData object here
+                        nsData,
                         null
                     )
                     if (success) {
@@ -66,8 +63,6 @@ import platform.Foundation.dataWithBytes
         } else {
             println("Error reading prepopulated database bytes from shared resources.")
         }
-    } else {
-        println("Database file already exists at: $dbFilePath")
     }
     return Room.databaseBuilder(
         name = dbFilePath
@@ -79,7 +74,7 @@ fun ByteArray.toNSData(): NSData? {
     if (isEmpty()) return NSData()
     return memScoped {
         this@toNSData.usePinned { pinned ->
-            NSData.dataWithBytes(pinned.addressOf(0), size.toULong()) // <--- Corrected call
+            NSData.dataWithBytes(pinned.addressOf(0), size.toULong())
         }
     }
 }
