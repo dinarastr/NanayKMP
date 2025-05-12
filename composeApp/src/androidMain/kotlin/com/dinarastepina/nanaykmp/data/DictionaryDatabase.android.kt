@@ -10,7 +10,7 @@ import nanaykmp.composeapp.generated.resources.Res
 import java.io.File
 import java.io.IOException
 
-private const val DATABASE_NAME = "nanay_dictionary.db"
+private const val DATABASE_NAME = "talysh_to_russian"
 private const val PREPOPULATED_DATABASE_FILE = "files/talysh_to_russian"
 
 fun getDatabaseBuilder(ctx: Context): RoomDatabase.Builder<DictionaryDataBase> {
@@ -37,7 +37,7 @@ private suspend fun File.copyPrepopulatedDatabase() {
         }
         withContext(Dispatchers.IO) {
             writeBytes(dbBytes)
-            println("Successfully copied prepopulated database to: ${absolutePath}")
+            println("Successfully copied prepopulated database to: $absolutePath")
         }
 
     } catch (e: IOException) {

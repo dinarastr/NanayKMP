@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.execSQL
-import com.dinarastepina.nanaykmp.data.dao.NanayWordDao
+import com.dinarastepina.nanaykmp.data.dao.NanayDao
 import com.dinarastepina.nanaykmp.data.dao.RussianDao
 import com.dinarastepina.nanaykmp.data.models.NanayWord
 import com.dinarastepina.nanaykmp.data.models.RussianWord
@@ -18,7 +18,7 @@ import kotlinx.coroutines.IO
 @Database(entities = [NanayWord::class, RussianWord::class], version = 3, exportSchema = true)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class DictionaryDataBase: RoomDatabase() {
-    abstract fun getNanayDao(): NanayWordDao
+    abstract fun getNanayDao(): NanayDao
     abstract fun getRussianDao(): RussianDao
 }
 

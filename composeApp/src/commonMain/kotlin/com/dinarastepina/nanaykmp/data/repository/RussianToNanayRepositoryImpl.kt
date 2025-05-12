@@ -3,6 +3,7 @@ package com.dinarastepina.nanaykmp.data.repository
 import com.dinarastepina.nanaykmp.data.dao.RussianDao
 import com.dinarastepina.nanaykmp.data.models.RussianWord
 import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
+import kotlinx.coroutines.flow.Flow
 
 class RussianToNanayRepositoryImpl(
     private val russianDao: RussianDao,
@@ -11,7 +12,7 @@ class RussianToNanayRepositoryImpl(
         russianDao.addWord(entity)
     }
 
-    override suspend fun getAllGrowthRecords(): List<RussianWord> {
+    override fun getAllGrowthRecords(): Flow<List<RussianWord>> {
         return russianDao.readAllRussianWords(20, 0)
     }
 }

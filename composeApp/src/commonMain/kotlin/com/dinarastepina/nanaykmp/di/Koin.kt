@@ -27,7 +27,7 @@ fun initKoin(config: KoinAppDeclaration? = null) =
     }
 
 val provideDatabaseModule = module {
-    single { getRoomDatabase(get<RoomDatabase.Builder<DictionaryDataBase>>()) }
+    single { getRoomDatabase(get()) }
     single { getRussianDao(get()) }
     single { getNanayDao(get()) }
 }

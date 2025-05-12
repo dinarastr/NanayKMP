@@ -16,7 +16,9 @@ class DictionaryViewModel(
     fun load() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                println(repository.getAllGrowthRecords())
+                repository.getAllGrowthRecords().collect {
+                    println(it)
+                }
             }
         }
     }

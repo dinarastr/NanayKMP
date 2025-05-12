@@ -11,9 +11,9 @@ class DictionaryApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidLogger(Level.DEBUG) // Optional: Set Koin logger level
-            androidContext(this@DictionaryApplication) // Provide the Android context
-            modules(platformModule()) // Load your platform-specific module
+            androidLogger(Level.DEBUG)
+            androidContext(this@DictionaryApplication)
+            modules(platformModule())
         }
     }
 }
