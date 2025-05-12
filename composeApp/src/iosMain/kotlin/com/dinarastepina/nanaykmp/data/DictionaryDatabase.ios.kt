@@ -66,9 +66,11 @@ import platform.Foundation.dataWithBytes
         } else {
             println("Error reading prepopulated database bytes from shared resources.")
         }
+    } else {
+        println("Database file already exists at: $dbFilePath")
     }
     return Room.databaseBuilder(
-        name = dbFileName
+        name = dbFilePath
     )
 }
 
@@ -76,7 +78,6 @@ import platform.Foundation.dataWithBytes
 fun ByteArray.toNSData(): NSData? {
     if (isEmpty()) return NSData()
     return memScoped {
-        // Use getPointer() within usePinned to get the raw C pointer
         this@toNSData.usePinned { pinned ->
             NSData.dataWithBytes(pinned.addressOf(0), size.toULong()) // <--- Corrected call
         }

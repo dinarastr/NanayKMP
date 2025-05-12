@@ -12,11 +12,17 @@ import com.dinarastepina.nanaykmp.presentation.navigation.NavGraph
 import com.dinarastepina.nanaykmp.presentation.navigation.Screen
 import com.dinarastepina.nanaykmp.presentation.ui.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
+import org.koin.compose.KoinContext
 
 @Composable
-@Preview
 fun App() {
+    KoinContext {
+        AppContent()
+    }
+}
+
+@Composable
+private fun AppContent() {
     AppTheme {
         val navController = rememberNavController()
 
@@ -38,12 +44,8 @@ fun App() {
                             label = screen.label,
                             isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                             onClick = {
-                                navController.navigate(screen.route) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
+                                if (currentDestination?.route != screen.route) {
+                                    navController.navigate(screen.route)
                                 }
                             }
                         )
@@ -57,4 +59,10 @@ fun App() {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun AppPreview() {
+    AppContent()
 }

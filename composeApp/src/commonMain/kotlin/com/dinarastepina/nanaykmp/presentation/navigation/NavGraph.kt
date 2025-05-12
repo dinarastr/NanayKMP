@@ -22,14 +22,13 @@ import nanaykmp.composeapp.generated.resources.phrasebook
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 
-
 sealed class Screen(
     val route: String,
     val icon: DrawableResource,
     val label: StringResource
 ) {
     data object Home: Screen("home", Res.drawable.ic_home, Res.string.home)
-    data object Favorite: Screen( "favorite", Res.drawable.ic_heart, Res.string.favorite)
+    data object Favorite: Screen("favorite", Res.drawable.ic_heart, Res.string.favorite)
     data object Info: Screen("info", Res.drawable.ic_info, Res.string.info)
     data object Dictionary: Screen("dictionary", Res.drawable.ic_home, Res.string.dictionary)
     data object Phrasebook: Screen("phrasebook", Res.drawable.ic_home, Res.string.phrasebook)
@@ -45,9 +44,7 @@ fun NavGraph(
         startDestination = Screen.Home.route,
         modifier = Modifier.padding(paddingValues)
     ) {
-        composable(
-            Screen.Home.route
-        ) {
+        composable(Screen.Home.route) {
             HomeMenu(
                 onDictionaryClick = {
                     navHostController.navigate(Screen.Dictionary.route)
@@ -57,18 +54,17 @@ fun NavGraph(
                 }
             )
         }
-        composable(
-            Screen.Favorite.route
-        ) {}
-        composable(
-            Screen.Info.route
-        ) {
+        composable(Screen.Favorite.route) {
+            // TODO: Implement favorite screen
+        }
+        composable(Screen.Info.route) {
             AboutAppScreen()
         }
-        composable(
-            Screen.Dictionary.route
-        ) {
+        composable(Screen.Dictionary.route) {
             DictionaryScreen()
+        }
+        composable(Screen.Phrasebook.route) {
+            // TODO: Implement phrasebook screen
         }
     }
 }

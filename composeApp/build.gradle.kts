@@ -30,7 +30,6 @@ kotlin {
     }
 
     sourceSets {
-
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -46,18 +45,18 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.navigation.compose)
+
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta01")
+            implementation("androidx.lifecycle:lifecycle-viewmodel:2.9.0")
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta01")
 
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
-            implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-        implementation(libs.koin.compose.navigation)// Note the group ID might be different or rely on the BOM
+            implementation(libs.koin.compose.navigation)
         }
     }
 }

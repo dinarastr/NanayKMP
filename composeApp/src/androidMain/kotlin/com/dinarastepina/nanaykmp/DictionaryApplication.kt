@@ -1,19 +1,17 @@
 package com.dinarastepina.nanaykmp
 
 import android.app.Application
-import com.dinarastepina.nanaykmp.di.platformModule
+import com.dinarastepina.nanaykmp.di.initKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-class DictionaryApplication: Application() {
+class DictionaryApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        startKoin {
+        initKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@DictionaryApplication)
-            modules(platformModule())
         }
     }
-}
+} 
