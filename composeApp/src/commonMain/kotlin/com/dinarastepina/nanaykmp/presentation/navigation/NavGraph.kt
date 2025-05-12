@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import com.dinarastepina.nanaykmp.presentation.about.AboutAppScreen
 import com.dinarastepina.nanaykmp.presentation.components.HomeMenu
 import com.dinarastepina.nanaykmp.presentation.dictionary.DictionaryScreen
+import com.dinarastepina.nanaykmp.presentation.phrasebook.PhrasesScreen
+import com.dinarastepina.nanaykmp.presentation.phrasebook.TopicsScreen
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.dictionary
 import nanaykmp.composeapp.generated.resources.favorite
@@ -31,7 +33,10 @@ sealed class Screen(
     data object Favorite: Screen("favorite", Res.drawable.ic_heart, Res.string.favorite)
     data object Info: Screen("info", Res.drawable.ic_info, Res.string.info)
     data object Dictionary: Screen("dictionary", Res.drawable.ic_home, Res.string.dictionary)
-    data object Phrasebook: Screen("phrasebook", Res.drawable.ic_home, Res.string.phrasebook)
+    data object Topics: Screen("topics", Res.drawable.ic_home, Res.string.phrasebook)
+    data object Phrases: Screen("phrases/{topicId}", Res.drawable.ic_home, Res.string.phrasebook) {
+        fun createRoute(topicId: String) = "phrases/$topicId"
+    }
 }
 
 @Composable
@@ -50,7 +55,7 @@ fun NavGraph(
                     navHostController.navigate(Screen.Dictionary.route)
                 },
                 onPhrasebookClick = {
-                    navHostController.navigate(Screen.Phrasebook.route)
+                    navHostController.navigate(Screen.Topics.route)
                 }
             )
         }
@@ -61,10 +66,25 @@ fun NavGraph(
             AboutAppScreen()
         }
         composable(Screen.Dictionary.route) {
-            DictionaryScreen()
+            DictionaryScreen(
+                onSettingsClick = {
+                    navHostController.navigate(Screen.Info.route)
+                }
+            )
         }
-        composable(Screen.Phrasebook.route) {
-            // TODO: Implement phrasebook screen
+        composable(Screen.Topics.route) {
+            TopicsScreen(
+                onTopicClick = { topicId ->
+                    navHostController.navigate(Screen.Phrases.createRoute(topicId))
+                }
+            )
+        }
+        composable(Screen.Phrases.route) { backStackEntry ->
+            val topicId = NavigationHelper.getStringArgument(backStackEntry, "topicId") ?: ""
+            PhrasesScreen(
+                topicId = topicId,
+                onBackClick = { navHostController.popBackStack() }
+            )
         }
     }
 }

@@ -6,6 +6,8 @@ import com.dinarastepina.nanaykmp.data.getRussianDao
 import com.dinarastepina.nanaykmp.data.repository.RussianToNanayRepositoryImpl
 import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
 import com.dinarastepina.nanaykmp.presentation.dictionary.DictionaryViewModel
+import com.dinarastepina.nanaykmp.presentation.phrasebook.PhrasesViewModel
+import com.dinarastepina.nanaykmp.presentation.phrasebook.TopicsViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -35,6 +37,8 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     factory { DictionaryViewModel(get()) }
+    factory { TopicsViewModel() }
+    factory { PhrasesViewModel() }
 }
 
 val commonModule = module {

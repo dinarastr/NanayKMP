@@ -11,7 +11,6 @@ import com.dinarastepina.nanaykmp.presentation.components.NavigationBarIcon
 import com.dinarastepina.nanaykmp.presentation.navigation.NavGraph
 import com.dinarastepina.nanaykmp.presentation.navigation.Screen
 import com.dinarastepina.nanaykmp.presentation.ui.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 
 @Composable
@@ -59,10 +58,4 @@ private fun AppContent() {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun AppPreview() {
-    AppContent()
 }

@@ -34,7 +34,7 @@ fun HomeMenu(
             backgroundColor = purple10
         )
         SectionCard(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).clickable { onPhrasebookClick() },
             title = stringResource(Res.string.phrasebook),
             drawableResource = Res.drawable.question_and_answer_svgrepo_com,
             borderColor = green70,

@@ -2,24 +2,32 @@ package com.dinarastepina.nanaykmp.presentation.dictionary
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dinarastepina.nanaykmp.data.models.NanayWord
+import com.dinarastepina.nanaykmp.data.models.RussianWord
 import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DictionaryViewModel(
     private val repository: RussianToNanayRepository
-): ViewModel() {
+) : ViewModel() {
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
 
+    private val _words = MutableStateFlow<List<RussianWord>>(emptyList())
+    val words = _words.asStateFlow()
 
-    fun load() {
+    init {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                repository.getAllGrowthRecords().collect {
-                    println(it)
+            repository.getAllGrowthRecords()
+                .collect { wordList ->
+                    _words.value = wordList
                 }
-            }
         }
+    }
+
+    fun onSearchQueryChange(query: String) {
+        _searchQuery.value = query
+        // TODO: Implement search filtering
     }
 }

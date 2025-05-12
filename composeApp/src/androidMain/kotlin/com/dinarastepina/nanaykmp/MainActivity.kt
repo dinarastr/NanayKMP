@@ -38,5 +38,9 @@ fun AboutAppAndroidPreview() {
 )
 @Composable
 fun DictionaryScreenPreview() {
-    DictionaryScreen()
+    DictionaryScreen(
+        onSettingsClick = {
+
+        }
+    )
 }
