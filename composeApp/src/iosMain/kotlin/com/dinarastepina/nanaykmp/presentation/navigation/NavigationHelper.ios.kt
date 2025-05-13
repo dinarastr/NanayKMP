@@ -1,8 +1,6 @@
 package com.dinarastepina.nanaykmp.presentation.navigation
 
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 
 actual object NavigationHelper {
     actual fun getStringArgument(backStackEntry: NavBackStackEntry, key: String): String? {

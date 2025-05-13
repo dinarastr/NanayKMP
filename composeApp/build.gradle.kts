@@ -46,6 +46,9 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
+            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
+
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta01")
             implementation("androidx.lifecycle:lifecycle-viewmodel:2.9.0")
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta01")

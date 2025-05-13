@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dinarastepina.nanaykmp.presentation.about.AboutAppScreen
 import com.dinarastepina.nanaykmp.presentation.components.HomeMenu
-import com.dinarastepina.nanaykmp.presentation.dictionary.DictionaryScreen
 import com.dinarastepina.nanaykmp.presentation.phrasebook.PhrasesScreen
 import com.dinarastepina.nanaykmp.presentation.phrasebook.TopicsScreen
+import com.dinarastepina.nanaykmp.presentation.dictionary.russian.RussianDictionaryScreen
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.dictionary
 import nanaykmp.composeapp.generated.resources.favorite
@@ -66,11 +66,7 @@ fun NavGraph(
             AboutAppScreen()
         }
         composable(Screen.Dictionary.route) {
-            DictionaryScreen(
-                onSettingsClick = {
-                    navHostController.navigate(Screen.Info.route)
-                }
-            )
+            RussianDictionaryScreen()
         }
         composable(Screen.Topics.route) {
             TopicsScreen(
