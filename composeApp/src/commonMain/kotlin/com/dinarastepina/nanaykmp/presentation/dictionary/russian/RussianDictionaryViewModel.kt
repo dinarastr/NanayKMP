@@ -8,6 +8,7 @@ import app.cash.paging.map
 import com.dinarastepina.nanaykmp.data.paging.RussianPagingSource
 import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import com.dinarastepina.nanaykmp.presentation.model.RussianWordUi
+import com.dinarastepina.nanaykmp.presentation.model.RussianWordUi.Companion.toUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,14 +35,8 @@ class RussianDictionaryViewModel(
             pagingSourceFactory = {
                 RussianPagingSource(repository, query)
             }
-        ).flow.map {
-            it.map { russianWord ->
-                RussianWordUi(
-                    id = russianWord.id,
-                    primaryWord = russianWord.russian,
-                    secondaryWord = russianWord.nanay
-                )
-            }
+        ).flow.map { data ->
+            data.map { it.toUI() }
         }
     }
 

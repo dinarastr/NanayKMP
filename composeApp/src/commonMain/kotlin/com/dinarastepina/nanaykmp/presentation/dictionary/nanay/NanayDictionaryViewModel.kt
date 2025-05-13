@@ -8,6 +8,7 @@ import app.cash.paging.map
 import com.dinarastepina.nanaykmp.data.paging.NanayPagingSource
 import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import com.dinarastepina.nanaykmp.presentation.model.NanayWordUi
+import com.dinarastepina.nanaykmp.presentation.model.NanayWordUi.Companion.toUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,14 +34,8 @@ class NanayDictionaryViewModel(
             pagingSourceFactory = {
                 NanayPagingSource(repository, query)
             }
-        ).flow.map {
-            it.map {
-                NanayWordUi(
-                    id = it.id,
-                    primaryWord = it.nanay,
-                    secondaryWord = it.russian
-                )
-            }
+        ).flow.map { data ->
+            data.map { it.toUI() }
         }
     }
 
