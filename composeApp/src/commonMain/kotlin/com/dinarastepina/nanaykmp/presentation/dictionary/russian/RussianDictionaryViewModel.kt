@@ -1,28 +1,44 @@
 package com.dinarastepina.nanaykmp.presentation.dictionary.russian
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
 import app.cash.paging.map
 import com.dinarastepina.nanaykmp.data.paging.RussianPagingSource
+import com.dinarastepina.nanaykmp.domain.repository.DataStoreRepository
 import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import com.dinarastepina.nanaykmp.presentation.model.RussianWordUi
 import com.dinarastepina.nanaykmp.presentation.model.RussianWordUi.Companion.toUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 
 class RussianDictionaryViewModel(
-    private val repository: DictionaryRepository
+    private val repository: DictionaryRepository,
+    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
+
+    private val _selectedLanguage = MutableStateFlow("russian")
+    val selectedLanguage: StateFlow<String> = _selectedLanguage.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            dataStoreRepository.lastSelectedLanguage.collect { language ->
+                _selectedLanguage.value = language
+            }
+        }
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val dictionaryEntries: Flow<PagingData<RussianWordUi>> = searchQuery.flatMapLatest { query ->
@@ -42,5 +58,12 @@ class RussianDictionaryViewModel(
 
     fun updateSearchQuery(query: String) {
         _searchQuery.value = query
+    }
+
+    fun updateSelectedLanguage(language: String) {
+        _selectedLanguage.value = language
+        viewModelScope.launch {
+            dataStoreRepository.setLastSelectedLanguage(language)
+        }
     }
 } 

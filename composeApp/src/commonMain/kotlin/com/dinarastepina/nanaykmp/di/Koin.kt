@@ -3,7 +3,9 @@ package com.dinarastepina.nanaykmp.di
 import com.dinarastepina.nanaykmp.data.getNanayDao
 import com.dinarastepina.nanaykmp.data.getRoomDatabase
 import com.dinarastepina.nanaykmp.data.getRussianDao
+import com.dinarastepina.nanaykmp.data.repository.DataStoreRepositoryImpl
 import com.dinarastepina.nanaykmp.data.repository.DictionaryRepositoryImpl
+import com.dinarastepina.nanaykmp.domain.repository.DataStoreRepository
 import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import com.dinarastepina.nanaykmp.presentation.phrasebook.PhrasesViewModel
 import com.dinarastepina.nanaykmp.presentation.phrasebook.TopicsViewModel
@@ -33,10 +35,13 @@ val databaseModule = module {
 
 val repositoryModule = module {
     singleOf(::DictionaryRepositoryImpl).bind(DictionaryRepository::class)
+    single<DataStoreRepository> { DataStoreRepositoryImpl(get()) }
 }
 
+
+
 val viewModelModule = module {
-    factory { RussianDictionaryViewModel(get()) }
+    factory { RussianDictionaryViewModel(get(), get()) }
     factory { TopicsViewModel() }
     factory { PhrasesViewModel() }
 }
