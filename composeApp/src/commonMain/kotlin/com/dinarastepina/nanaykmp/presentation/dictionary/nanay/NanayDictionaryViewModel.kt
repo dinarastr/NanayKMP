@@ -4,24 +4,26 @@ import androidx.lifecycle.ViewModel
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
-import com.dinarastepina.nanaykmp.data.models.NanayWord
+import app.cash.paging.map
 import com.dinarastepina.nanaykmp.data.paging.NanayPagingSource
-import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
+import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
+import com.dinarastepina.nanaykmp.presentation.model.NanayWordUi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 
 class NanayDictionaryViewModel(
-    private val repository: RussianToNanayRepository
+    private val repository: DictionaryRepository
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dictionaryEntries: Flow<PagingData<NanayWord>> = searchQuery.flatMapLatest { query ->
+    val dictionaryEntries: Flow<PagingData<NanayWordUi>> = searchQuery.flatMapLatest { query ->
         Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -31,7 +33,15 @@ class NanayDictionaryViewModel(
             pagingSourceFactory = {
                 NanayPagingSource(repository, query)
             }
-        ).flow
+        ).flow.map {
+            it.map {
+                NanayWordUi(
+                    id = it.id,
+                    primaryWord = it.nanay,
+                    secondaryWord = it.russian
+                )
+            }
+        }
     }
 
     fun updateSearchQuery(query: String) {

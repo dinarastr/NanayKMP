@@ -1,11 +1,11 @@
 package com.dinarastepina.nanaykmp.data.paging
 
 import com.dinarastepina.nanaykmp.data.models.RussianWord
-import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
+import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import kotlinx.coroutines.flow.first
 
 class RussianPagingSource(
-    private val repository: RussianToNanayRepository,
+    private val repository: DictionaryRepository,
     searchQuery: String = ""
 ) : BasePagingSource<RussianWord>(searchQuery) {
 

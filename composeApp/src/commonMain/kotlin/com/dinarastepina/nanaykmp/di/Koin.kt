@@ -3,8 +3,8 @@ package com.dinarastepina.nanaykmp.di
 import com.dinarastepina.nanaykmp.data.getNanayDao
 import com.dinarastepina.nanaykmp.data.getRoomDatabase
 import com.dinarastepina.nanaykmp.data.getRussianDao
-import com.dinarastepina.nanaykmp.data.repository.RussianToNanayRepositoryImpl
-import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
+import com.dinarastepina.nanaykmp.data.repository.DictionaryRepositoryImpl
+import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import com.dinarastepina.nanaykmp.presentation.phrasebook.PhrasesViewModel
 import com.dinarastepina.nanaykmp.presentation.phrasebook.TopicsViewModel
 import com.dinarastepina.nanaykmp.presentation.dictionary.russian.RussianDictionaryViewModel
@@ -32,7 +32,7 @@ val databaseModule = module {
 }
 
 val repositoryModule = module {
-    singleOf(::RussianToNanayRepositoryImpl).bind(RussianToNanayRepository::class)
+    singleOf(::DictionaryRepositoryImpl).bind(DictionaryRepository::class)
 }
 
 val viewModelModule = module {

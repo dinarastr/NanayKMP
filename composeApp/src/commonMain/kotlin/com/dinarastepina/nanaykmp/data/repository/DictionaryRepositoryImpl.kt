@@ -4,13 +4,13 @@ import com.dinarastepina.nanaykmp.data.dao.NanayDao
 import com.dinarastepina.nanaykmp.data.dao.RussianDao
 import com.dinarastepina.nanaykmp.data.models.NanayWord
 import com.dinarastepina.nanaykmp.data.models.RussianWord
-import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
+import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import kotlinx.coroutines.flow.Flow
 
-class RussianToNanayRepositoryImpl(
+class DictionaryRepositoryImpl(
     private val russianDao: RussianDao,
     private val nanayDao: NanayDao
-): RussianToNanayRepository {
+): DictionaryRepository {
     override suspend fun insertRussianWord(entity: RussianWord) {
         russianDao.addWord(entity)
     }

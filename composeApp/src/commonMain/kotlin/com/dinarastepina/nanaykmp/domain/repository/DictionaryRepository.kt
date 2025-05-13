@@ -4,7 +4,7 @@ import com.dinarastepina.nanaykmp.data.models.NanayWord
 import com.dinarastepina.nanaykmp.data.models.RussianWord
 import kotlinx.coroutines.flow.Flow
 
-interface RussianToNanayRepository {
+interface DictionaryRepository {
 
     suspend fun insertRussianWord(entity: RussianWord)
     fun readAllRussianWords(limit: Int, offset: Int): Flow<List<RussianWord>>
