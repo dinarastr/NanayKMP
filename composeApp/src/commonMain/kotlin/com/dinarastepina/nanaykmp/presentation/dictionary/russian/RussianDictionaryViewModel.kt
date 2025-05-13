@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
-import com.dinarastepina.nanaykmp.data.dao.RussianDao
 import com.dinarastepina.nanaykmp.data.models.RussianWord
 import com.dinarastepina.nanaykmp.data.paging.RussianPagingSource
+import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 
 
 class RussianDictionaryViewModel(
-    private val russianDao: RussianDao
+    private val repository: RussianToNanayRepository
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
@@ -30,7 +30,7 @@ class RussianDictionaryViewModel(
                 prefetchDistance = 2
             ),
             pagingSourceFactory = {
-                RussianPagingSource(russianDao, query)
+                RussianPagingSource(repository, query)
             }
         ).flow
     }

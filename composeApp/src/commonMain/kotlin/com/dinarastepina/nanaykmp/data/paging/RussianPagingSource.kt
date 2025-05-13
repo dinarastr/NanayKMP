@@ -2,12 +2,12 @@ package com.dinarastepina.nanaykmp.data.paging
 
 import app.cash.paging.PagingSource
 import app.cash.paging.PagingState
-import com.dinarastepina.nanaykmp.data.dao.RussianDao
 import com.dinarastepina.nanaykmp.data.models.RussianWord
+import com.dinarastepina.nanaykmp.domain.repository.RussianToNanayRepository
 import kotlinx.coroutines.flow.first
 
 class RussianPagingSource(
-    private val russianDao: RussianDao,
+    private val repository: RussianToNanayRepository,
     private val searchQuery: String = ""
 ) : PagingSource<Int, RussianWord>() {
 
@@ -24,9 +24,9 @@ class RussianPagingSource(
             val pageSize = params.loadSize
 
             val entries = if (searchQuery.isEmpty()) {
-                russianDao.readAllRussianWords(pageSize, page * pageSize).first()
+                repository.readAllRussianWords(pageSize, page * pageSize).first()
             } else {
-                russianDao.searchRussianWords(searchQuery, pageSize, page * pageSize).first()
+                repository.searchRussianWords(searchQuery, pageSize, page * pageSize).first()
             }
             
             LoadResult.Page(
