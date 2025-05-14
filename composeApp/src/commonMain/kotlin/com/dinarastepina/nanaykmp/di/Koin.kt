@@ -9,7 +9,7 @@ import com.dinarastepina.nanaykmp.domain.repository.DataStoreRepository
 import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import com.dinarastepina.nanaykmp.presentation.phrasebook.PhrasesViewModel
 import com.dinarastepina.nanaykmp.presentation.phrasebook.TopicsViewModel
-import com.dinarastepina.nanaykmp.presentation.dictionary.russian.RussianDictionaryViewModel
+import com.dinarastepina.nanaykmp.presentation.dictionary.DictionaryViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -41,7 +41,7 @@ val repositoryModule = module {
 
 
 val viewModelModule = module {
-    factory { RussianDictionaryViewModel(get(), get()) }
+    factory { DictionaryViewModel(get(), get()) }
     factory { TopicsViewModel() }
     factory { PhrasesViewModel() }
 }

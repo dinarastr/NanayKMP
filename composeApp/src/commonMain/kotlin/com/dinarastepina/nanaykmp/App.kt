@@ -26,8 +26,8 @@ private fun AppContent() {
         val navController = rememberNavController()
 
         val navItems = listOf(
-            Screen.Home,
-            Screen.Favorite,
+            Screen.Dictionary,
+            Screen.Topics,
             Screen.Info
         )
 

@@ -1,4 +1,4 @@
-package com.dinarastepina.nanaykmp.presentation.dictionary.russian
+package com.dinarastepina.nanaykmp.presentation.dictionary
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,6 @@ import com.dinarastepina.nanaykmp.domain.model.LANGUAGE
 import com.dinarastepina.nanaykmp.domain.repository.DataStoreRepository
 import com.dinarastepina.nanaykmp.domain.repository.DictionaryRepository
 import com.dinarastepina.nanaykmp.presentation.model.NanayWordUi.Companion.toUI
-import com.dinarastepina.nanaykmp.presentation.model.RussianWordUi
 import com.dinarastepina.nanaykmp.presentation.model.RussianWordUi.Companion.toUI
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
-class RussianDictionaryViewModel(
+class DictionaryViewModel(
     private val repository: DictionaryRepository,
     private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {

@@ -1,4 +1,4 @@
-package com.dinarastepina.nanaykmp.presentation.dictionary.russian
+package com.dinarastepina.nanaykmp.presentation.dictionary
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -10,7 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RussianDictionaryScreen(
-    viewModel: RussianDictionaryViewModel = koinViewModel()
+    viewModel: DictionaryViewModel = koinViewModel()
 ) {
     val dictionaryEntries = viewModel.dictionaryEntries.collectAsLazyPagingItems()
     val searchQuery by viewModel.searchQuery.collectAsState()
