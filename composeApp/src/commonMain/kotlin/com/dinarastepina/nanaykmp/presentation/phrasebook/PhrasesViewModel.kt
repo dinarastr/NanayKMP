@@ -13,11 +13,11 @@ class PhrasesViewModel(
 
     init {
         // TODO: Load phrases from repository based on topicId
-        _phrases.value = listOf(
-            Phrase("1", "Hello", "Привет", "hello_audio"),
-            Phrase("2", "How are you?", "Как дела?", "how_are_you_audio"),
-            // Add more phrases as needed
-        )
+//        _phrases.value = listOf(
+//            Phrase("1", "Hello", "Привет", "hello_audio"),
+//            Phrase("2", "How are you?", "Как дела?", "how_are_you_audio"),
+//            // Add more phrases as needed
+//        )
     }
 
     fun playAudio(audioRes: String) {

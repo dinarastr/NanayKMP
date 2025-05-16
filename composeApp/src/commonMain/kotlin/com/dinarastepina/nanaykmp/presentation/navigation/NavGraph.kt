@@ -31,7 +31,7 @@ sealed class Screen(
     data object Dictionary: Screen("dictionary", Res.drawable.ic_dictionary, Res.string.dictionary)
     data object Topics: Screen("topics", Res.drawable.ic_headphones, Res.string.phrasebook)
     data object Phrases: Screen("phrases/{topicId}", Res.drawable.ic_home, Res.string.phrasebook) {
-        fun createRoute(topicId: String) = "phrases/$topicId"
+        fun createRoute(topicId: Int) = "phrases/$topicId"
     }
 }
 

@@ -9,12 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import nanaykmp.composeapp.generated.resources.Res
+import nanaykmp.composeapp.generated.resources.allDrawableResources
 import nanaykmp.composeapp.generated.resources.question_and_answer_svgrepo_com
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun TopicCard(
     title: String,
+    imageRes: String = "",
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -27,7 +29,11 @@ fun TopicCard(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = painterResource(Res.drawable.question_and_answer_svgrepo_com),
+                painter = Res.allDrawableResources.get(
+                    imageRes
+                )?.let {
+                   painterResource( it )
+                } ?: painterResource(Res.drawable.question_and_answer_svgrepo_com),
                 contentDescription = title,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -41,7 +47,7 @@ fun TopicCard(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(16.dp)
                 )
             }
