@@ -26,6 +26,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            linkerOpts.add("-lsqlite3")
         }
     }
 
@@ -37,6 +38,8 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.room.runtime)
             implementation(libs.room.ktx)
+            implementation("androidx.sqlite:sqlite-android:2.5.1")
+            implementation("androidx.sqlite:sqlite-framework:2.4.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)

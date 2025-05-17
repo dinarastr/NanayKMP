@@ -13,9 +13,11 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.dataWithBytes
+import com.dinarastepina.nanaykmp.data.driver.DatabaseDriver
+
 
 private const val DATABASE_NAME: String = "nanay_dictionary.db"
-private const val PREPOPULATED_DATABASE_FILE = "files/talysh_to_russian"
+private const val PREPOPULATED_DATABASE_FILE = "files/nanay_to_russian"
 
 @OptIn(ExperimentalForeignApi::class)
  fun getDatabaseBuilder(): RoomDatabase.Builder<DictionaryDataBase> {
@@ -64,9 +66,10 @@ private const val PREPOPULATED_DATABASE_FILE = "files/talysh_to_russian"
             println("Error reading prepopulated database bytes from shared resources.")
         }
     }
-    return Room.databaseBuilder(
+    return Room.databaseBuilder<DictionaryDataBase>(
         name = dbFilePath
-    )
+    ).setDriver(DatabaseDriver().createDriver())
+        .fallbackToDestructiveMigration(true)
 }
 
 @OptIn(ExperimentalForeignApi::class)

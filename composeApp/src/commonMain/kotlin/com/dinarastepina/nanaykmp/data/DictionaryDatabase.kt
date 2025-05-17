@@ -6,7 +6,6 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.execSQL
 import com.dinarastepina.nanaykmp.data.dao.NanayDao
 import com.dinarastepina.nanaykmp.data.dao.PhraseBookDao
@@ -23,7 +22,7 @@ import kotlinx.coroutines.IO
     RussianWord::class,
     PhraseTopic::class,
     Phrase::class
- ], version = 3, exportSchema = true)
+ ], version = 4, exportSchema = true)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class DictionaryDataBase: RoomDatabase() {
     abstract fun getNanayDao(): NanayDao
@@ -47,11 +46,9 @@ private val migration_2_3 = object : Migration(2, 3) {
     override fun migrate(connection: SQLiteConnection) {
         connection.execSQL("ALTER TABLE talysh_to_russian RENAME TO nanay_to_russian")
         connection.execSQL("ALTER TABLE nanay_to_russian RENAME COLUMN talysh TO nanay")
-        connection.execSQL("CREATE TABLE IF NOT EXISTS 'phrases_topics' ('id' INTEGER NOT NULL, " +
-                "'title' TEXT NOT NULL, 'imageRes' TEXT NOT NULL, " + "PRIMARY KEY('id'))")
-        connection.execSQL("CREATE TABLE IF NOT EXISTS 'phrases' ('id' INTEGER NOT NULL, " +
-                "'topicId' INTEGER NOT NULL, 'originalText' TEXT NOT NULL, 'translation' TEXT NOT NULL, " +
-                "'audioRes' TEXT NOT NULL, " + "PRIMARY KEY('id'))")
+        
+        connection.execSQL("CREATE TABLE IF NOT EXISTS 'phrases_topics' (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `imageRes` TEXT NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS 'phrases' (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `topicId` TEXT NOT NULL, `originalText` TEXT NOT NULL, `translation` TEXT NOT NULL, `audioRes` TEXT NOT NULL)")
     }
 }
 
@@ -60,8 +57,6 @@ fun getRoomDatabase(
 ): DictionaryDataBase {
     return builder
         .addMigrations(migration_1_2, migration_2_3)
-        .fallbackToDestructiveMigration(true)
-        .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()
 }
