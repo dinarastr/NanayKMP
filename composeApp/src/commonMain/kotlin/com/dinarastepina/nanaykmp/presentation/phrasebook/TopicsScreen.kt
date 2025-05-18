@@ -38,7 +38,7 @@ fun TopicsScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items(topics) { topic ->
+            items(topics, key = { it.id }) { topic ->
                 TopicCard(
                     imageRes = topic.imageRes,
                     title = topic.title,

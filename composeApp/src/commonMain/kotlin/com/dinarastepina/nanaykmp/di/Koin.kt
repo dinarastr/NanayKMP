@@ -48,7 +48,7 @@ val repositoryModule = module {
 val viewModelModule = module {
     factory { DictionaryViewModel(get(), get()) }
     factory { TopicsViewModel(get() ) }
-    factory { PhrasesViewModel() }
+    factory { PhrasesViewModel(get()) }
 }
 
 val commonModule = module {

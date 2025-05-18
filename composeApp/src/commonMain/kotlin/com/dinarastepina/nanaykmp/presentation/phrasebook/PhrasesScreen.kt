@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,6 +24,10 @@ fun PhrasesScreen(
     viewModel: PhrasesViewModel = koinViewModel()
 ) {
     val phrases by viewModel.phrases.collectAsState()
+
+    LaunchedEffect(topicId) {
+        viewModel.loadPhrases(topicId.toInt())
+    }
 
     Scaffold(
         topBar = {
@@ -45,7 +50,7 @@ fun PhrasesScreen(
                 .padding(paddingValues),
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            items(phrases) { phrase ->
+            items(phrases, key = { it.id }) { phrase ->
                 PhraseCard(
                     originalText = phrase.originalText,
                     translation = phrase.translation,
