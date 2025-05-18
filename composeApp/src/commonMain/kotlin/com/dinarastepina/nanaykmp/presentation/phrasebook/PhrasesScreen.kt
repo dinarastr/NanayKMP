@@ -19,14 +19,14 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhrasesScreen(
-    topicId: String,
+    topicId: Int,
     onBackClick: () -> Unit,
     viewModel: PhrasesViewModel = koinViewModel()
 ) {
     val phrases by viewModel.phrases.collectAsState()
 
     LaunchedEffect(topicId) {
-        viewModel.loadPhrases(topicId.toInt())
+        viewModel.loadPhrases(topicId)
     }
 
     Scaffold(

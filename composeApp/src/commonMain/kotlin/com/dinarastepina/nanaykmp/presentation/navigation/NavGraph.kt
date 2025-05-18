@@ -55,11 +55,12 @@ fun NavGraph(
             TopicsScreen(
                 onTopicClick = { topicId ->
                     navHostController.navigate(Screen.Phrases.createRoute(topicId))
+                    println(topicId)
                 }
             )
         }
         composable(Screen.Phrases.route) { backStackEntry ->
-            val topicId = NavigationHelper.getStringArgument(backStackEntry, "topicId") ?: ""
+            val topicId = NavigationHelper.getIntegerArgument(backStackEntry, "topicId") ?: 1
             PhrasesScreen(
                 topicId = topicId,
                 onBackClick = { navHostController.popBackStack() }
