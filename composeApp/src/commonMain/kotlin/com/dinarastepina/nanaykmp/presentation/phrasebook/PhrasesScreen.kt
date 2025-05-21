@@ -54,7 +54,7 @@ fun PhrasesScreen(
                 PhraseCard(
                     originalText = phrase.originalText,
                     translation = phrase.translation,
-                    onPlayAudio = { viewModel.playAudio(phrase.audioRes) }
+                    onPlayAudio = { viewModel.playAudio(phrase.id, phrase.audioRes) }
                 )
             }
         }

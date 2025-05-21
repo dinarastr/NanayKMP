@@ -2,6 +2,8 @@ package com.dinarastepina.nanaykmp.presentation.phrasebook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dinarastepina.nanaykmp.audio.AudioTrack
+import com.dinarastepina.nanaykmp.audio.PlaylistManager
 import com.dinarastepina.nanaykmp.data.models.Phrase
 import com.dinarastepina.nanaykmp.domain.repository.PhraseBookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,10 +12,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class PhrasesViewModel(
-    private val phraseBookRepository: PhraseBookRepository
+    private val phraseBookRepository: PhraseBookRepository,
+    private val playerManager: PlaylistManager
 ) : ViewModel() {
     private val _phrases = MutableStateFlow<List<Phrase>>(emptyList())
     val phrases: StateFlow<List<Phrase>> = _phrases.asStateFlow()
+
+    private val _currentlyPlayingId = MutableStateFlow<Int?>(null)
+    val currentlyPlayingId: StateFlow<Int?> = _currentlyPlayingId.asStateFlow()
 
     fun loadPhrases(topicId: Int) {
         viewModelScope.launch {
@@ -24,7 +30,25 @@ class PhrasesViewModel(
     }
 
 
-    fun playAudio(audioRes: String) {
-        // TODO: Implement audio playback
+    fun playAudio(phraseId: Int, audioPath: String) {
+        if (_currentlyPlayingId.value == phraseId) {
+            playerManager.pause()
+            _currentlyPlayingId.value = null
+        } else {
+            playerManager.stop()
+            playerManager.playTrack(
+                AudioTrack(
+                    id = phraseId.toString(),
+                    path = "$audioPath.mp3",
+                    title = "Phrase $phraseId"
+                )
+            )
+            _currentlyPlayingId.value = phraseId
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        playerManager.release()
     }
 } 

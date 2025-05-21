@@ -1,5 +1,7 @@
 package com.dinarastepina.nanaykmp.di
 
+import com.dinarastepina.nanaykmp.audio.AudioPlayerFactory
+import com.dinarastepina.nanaykmp.audio.PlaylistManager
 import com.dinarastepina.nanaykmp.data.getNanayDao
 import com.dinarastepina.nanaykmp.data.getPhraseBookDao
 import com.dinarastepina.nanaykmp.data.getRoomDatabase
@@ -43,19 +45,23 @@ val repositoryModule = module {
     single<DataStoreRepository> { DataStoreRepositoryImpl(get()) }
 }
 
-
-
 val viewModelModule = module {
     factory { DictionaryViewModel(get(), get()) }
     factory { TopicsViewModel(get() ) }
-    factory { PhrasesViewModel(get()) }
+    factory { PhrasesViewModel(get(), get()) }
+}
+
+val audioModule = module {
+    single { AudioPlayerFactory() }
+    single { PlaylistManager(get()) }
 }
 
 val commonModule = module {
     includes(
         databaseModule,
         repositoryModule,
-        viewModelModule
+        viewModelModule,
+        audioModule
     )
 }
 
