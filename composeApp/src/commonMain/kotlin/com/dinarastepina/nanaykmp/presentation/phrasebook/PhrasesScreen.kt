@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.dinarastepina.nanaykmp.presentation.components.AudioState
 import com.dinarastepina.nanaykmp.presentation.components.PhraseCard
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.ic_back
@@ -24,6 +25,7 @@ fun PhrasesScreen(
     viewModel: PhrasesViewModel = koinViewModel()
 ) {
     val phrases by viewModel.phrases.collectAsState()
+    val currentlyPlayingId by viewModel.currentlyPlayingId.collectAsState()
 
     LaunchedEffect(topicId) {
         viewModel.loadPhrases(topicId)
@@ -52,6 +54,7 @@ fun PhrasesScreen(
         ) {
             items(phrases, key = { it.id }) { phrase ->
                 PhraseCard(
+                    isPlaying = if (currentlyPlayingId == phrase.id) AudioState.PLAYING else AudioState.STOPPED,
                     originalText = phrase.originalText,
                     translation = phrase.translation,
                     onPlayAudio = { viewModel.playAudio(phrase.id, phrase.audioRes) }

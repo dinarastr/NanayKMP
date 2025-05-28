@@ -6,11 +6,16 @@ import java.io.File
 import java.io.IOException
 import java.io.FileOutputStream
 
+
 class AndroidAudioPlayer : AudioPlayer {
     private var mediaPlayer: MediaPlayer? = null
     private var currentDataSource: ByteArray? = null
     private var tempFile: File? = null
+    private var completionListener: AudioCompletionListener? = null
 
+    override fun setCompletionListener(listener: AudioCompletionListener) {
+        completionListener = listener
+    }
 
     override fun play() {
         mediaPlayer?.start()
@@ -51,6 +56,9 @@ class AndroidAudioPlayer : AudioPlayer {
             mediaPlayer?.release()
             mediaPlayer = MediaPlayer().apply {
                 setDataSource(tempFile?.absolutePath)
+                setOnCompletionListener {
+                    completionListener?.onAudioCompleted()
+                }
                 prepare()
             }
         } catch (e: IOException) {

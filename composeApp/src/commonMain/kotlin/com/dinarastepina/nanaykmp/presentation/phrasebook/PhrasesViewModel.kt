@@ -21,6 +21,12 @@ class PhrasesViewModel(
     private val _currentlyPlayingId = MutableStateFlow<Int?>(null)
     val currentlyPlayingId: StateFlow<Int?> = _currentlyPlayingId.asStateFlow()
 
+    init {
+        playerManager.setOnTrackCompletedListener {
+            _currentlyPlayingId.value = null
+        }
+    }
+
     fun loadPhrases(topicId: Int) {
         viewModelScope.launch {
             phraseBookRepository.getPhrasesByTopic(topicId).collect { phrases ->
@@ -28,7 +34,6 @@ class PhrasesViewModel(
             }
         }
     }
-
 
     fun playAudio(phraseId: Int, audioPath: String) {
         if (_currentlyPlayingId.value == phraseId) {

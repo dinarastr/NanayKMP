@@ -4,14 +4,32 @@ import com.dinarastepina.nanaykmp.data.toNSData
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.runBlocking
 import platform.AVFAudio.AVAudioPlayer
+import platform.AVFAudio.AVAudioPlayerDelegateProtocol
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.setActive
+import platform.darwin.NSObject
+import platform.Foundation.NSError
 
-
+@OptIn(ExperimentalForeignApi::class)
 class IosAudioPlayer : AudioPlayer {
     private var audioPlayer: AVAudioPlayer? = null
     private var currentDataSource: ByteArray? = null
+    private var completionListener: AudioCompletionListener? = null
+
+    private val delegate = object : NSObject(), AVAudioPlayerDelegateProtocol {
+        override fun audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully: Boolean) {
+            if (successfully) {
+                completionListener?.onAudioCompleted()
+            }
+        }
+
+        override fun audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
+            error?.let {
+                println("Audio decode error: ${it.localizedDescription}")
+            }
+        }
+    }
 
     init {
         configureAudioSession()
@@ -25,6 +43,10 @@ class IosAudioPlayer : AudioPlayer {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    override fun setCompletionListener(listener: AudioCompletionListener) {
+        completionListener = listener
     }
 
     override fun play() {
@@ -60,6 +82,7 @@ class IosAudioPlayer : AudioPlayer {
 
         val nsData = audioBytes.toNSData()
         audioPlayer = AVAudioPlayer(nsData!!, error = null)
+        audioPlayer?.delegate = delegate
         audioPlayer?.prepareToPlay()
     }
 

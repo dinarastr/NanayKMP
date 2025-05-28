@@ -1,6 +1,11 @@
 package com.dinarastepina.nanaykmp.audio
 
+interface AudioCompletionListener {
+    fun onAudioCompleted()
+}
+
 interface AudioPlayer {
+    fun setCompletionListener(listener: AudioCompletionListener)
     fun play()
     fun pause()
     fun stop()

@@ -2,6 +2,16 @@ package com.dinarastepina.nanaykmp.audio
 
 class PlaylistManager(private val audioPlayerFactory: AudioPlayerFactory) {
     private val player: AudioPlayer = audioPlayerFactory.createAudioPlayer()
+    private var onTrackCompleted: (() -> Unit)? = null
+
+    fun setOnTrackCompletedListener(listener: () -> Unit) {
+        onTrackCompleted = listener
+        player.setCompletionListener(object : AudioCompletionListener {
+            override fun onAudioCompleted() {
+                onTrackCompleted?.invoke()
+            }
+        })
+    }
 
     fun playTrack(track: AudioTrack) {
         stop()

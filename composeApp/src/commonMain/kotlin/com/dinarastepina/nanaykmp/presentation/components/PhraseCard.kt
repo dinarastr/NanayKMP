@@ -9,15 +9,25 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.ic_play
+import nanaykmp.composeapp.generated.resources.ic_pause
 
+enum class AudioState {
+    PLAYING, PAUSED, STOPPED
+}
 
 @Composable
 fun PhraseCard(
     originalText: String,
     translation: String,
     onPlayAudio: () -> Unit,
+    isPlaying: AudioState = AudioState.STOPPED,
     modifier: Modifier = Modifier
 ) {
+
+    val audioIcon = when (isPlaying) {
+        AudioState.PLAYING -> painterResource(Res.drawable.ic_pause)
+        else -> painterResource(Res.drawable.ic_play)
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -51,7 +61,7 @@ fun PhraseCard(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Icon(
-                    painter = painterResource(Res.drawable.ic_play),
+                    painter = audioIcon,
                     contentDescription = "Play audio"
                 )
             }
