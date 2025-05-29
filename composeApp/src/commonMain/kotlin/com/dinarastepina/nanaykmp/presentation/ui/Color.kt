@@ -1,13 +1,13 @@
 package com.dinarastepina.nanaykmp.presentation.ui
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xFF415F91)
+val primaryLight = Color(0x803EA6DD)
 val onPrimaryLight = Color(0xFFFFFFFF)
-val primaryContainerLight = Color(0xFFD7E3FF)
+val primaryContainerLight = Color(0xFF3EA6DD)
 val onPrimaryContainerLight = Color(0xFF284777)
 val secondaryLight = Color(0xFF00696C)
 val onSecondaryLight = Color(0xFFFFFFFF)
-val secondaryContainerLight = Color(0xFF9CF1F3)
+val secondaryContainerLight = Color(0x1a3EA6DD)
 val onSecondaryContainerLight = Color(0xFF004F51)
 val tertiaryLight = Color(0xFF784F82)
 val onTertiaryLight = Color(0xFFFFFFFF)

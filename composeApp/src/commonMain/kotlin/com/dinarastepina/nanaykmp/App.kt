@@ -1,5 +1,6 @@
 package com.dinarastepina.nanaykmp
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable

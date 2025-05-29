@@ -1,5 +1,6 @@
 package com.dinarastepina.nanaykmp.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ fun WordCard(
     ) {
         Column(
             modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceContainer)
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
