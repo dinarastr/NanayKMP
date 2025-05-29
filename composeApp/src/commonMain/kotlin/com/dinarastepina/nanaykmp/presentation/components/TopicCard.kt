@@ -1,6 +1,7 @@
 package com.dinarastepina.nanaykmp.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,21 +22,23 @@ fun TopicCard(
     modifier: Modifier = Modifier
 ) {
     Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
             .padding(8.dp),
         onClick = onClick
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+        ) {
             Image(
-                painter = Res.allDrawableResources.get(
-                    imageRes
-                )?.let {
+                painter = Res.allDrawableResources[imageRes]?.let {
                    painterResource( it )
                 } ?: painterResource(Res.drawable.question_and_answer_svgrepo_com),
                 contentDescription = title,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(16.dp),
                 contentScale = ContentScale.Crop
             )
             
@@ -43,7 +46,7 @@ fun TopicCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter),
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
             ) {
                 Text(
                     text = title,

@@ -1,6 +1,8 @@
 package com.dinarastepina.nanaykmp.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -10,6 +12,7 @@ import org.jetbrains.compose.resources.painterResource
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.ic_play
 import nanaykmp.composeapp.generated.resources.ic_pause
+import nanaykmp.composeapp.generated.resources.ic_play_pause
 
 enum class AudioState {
     PLAYING, PAUSED, STOPPED
@@ -26,16 +29,18 @@ fun PhraseCard(
 
     val audioIcon = when (isPlaying) {
         AudioState.PLAYING -> painterResource(Res.drawable.ic_pause)
+        AudioState.PAUSED -> painterResource(Res.drawable.ic_play_pause)
         else -> painterResource(Res.drawable.ic_play)
     }
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Row(
             modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceContainer)
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -45,22 +50,26 @@ fun PhraseCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    text = originalText,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = translation,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                SelectionContainer {
+                    Text(
+                        text = originalText,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+                SelectionContainer {
+                    Text(
+                        text = translation,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
-            
             IconButton(
                 onClick = onPlayAudio,
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Icon(
+                    tint = MaterialTheme.colorScheme.primaryContainer,
                     painter = audioIcon,
                     contentDescription = "Play audio"
                 )

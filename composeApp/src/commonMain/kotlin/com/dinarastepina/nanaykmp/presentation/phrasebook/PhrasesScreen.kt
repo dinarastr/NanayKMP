@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dinarastepina.nanaykmp.presentation.components.AudioState
 import com.dinarastepina.nanaykmp.presentation.components.PhraseCard
+import com.dinarastepina.nanaykmp.presentation.navigation.Topic
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
@@ -20,21 +21,24 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhrasesScreen(
-    topicId: Int,
+    topic: Topic,
     onBackClick: () -> Unit,
     viewModel: PhrasesViewModel = koinViewModel()
 ) {
     val phrases by viewModel.phrases.collectAsState()
     val currentlyPlayingId by viewModel.currentlyPlayingId.collectAsState()
 
-    LaunchedEffect(topicId) {
-        viewModel.loadPhrases(topicId)
+    LaunchedEffect(topic.id) {
+        viewModel.loadPhrases(topic.id)
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.primary,
         topBar = {
             TopAppBar(
-                title = { Text("Phrases") },
+                title = {
+                    Text(topic.title)
+                },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(

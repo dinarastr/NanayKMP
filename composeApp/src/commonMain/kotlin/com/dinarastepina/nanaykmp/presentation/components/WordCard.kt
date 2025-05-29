@@ -2,6 +2,7 @@ package com.dinarastepina.nanaykmp.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,15 +28,19 @@ fun WordCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
-                text = primaryWord,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = secondaryWord,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            SelectionContainer {
+                Text(
+                    text = primaryWord,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            SelectionContainer {
+                Text(
+                    text = secondaryWord,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 } 

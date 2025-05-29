@@ -7,10 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.dinarastepina.nanaykmp.presentation.about.AboutAppScreen
 import com.dinarastepina.nanaykmp.presentation.dictionary.RussianDictionaryScreen
 import com.dinarastepina.nanaykmp.presentation.phrasebook.PhrasesScreen
 import com.dinarastepina.nanaykmp.presentation.phrasebook.TopicsScreen
+import kotlinx.serialization.Serializable
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.dictionary
 import nanaykmp.composeapp.generated.resources.ic_home
@@ -30,10 +32,13 @@ sealed class Screen(
     data object Info: Screen("info", Res.drawable.ic_info, Res.string.info)
     data object Dictionary: Screen("dictionary", Res.drawable.ic_dictionary, Res.string.dictionary)
     data object Topics: Screen("topics", Res.drawable.ic_headphones, Res.string.phrasebook)
-    data object Phrases: Screen("phrases/{topicId}", Res.drawable.ic_home, Res.string.phrasebook) {
-        fun createRoute(topicId: Int) = "phrases/$topicId"
-    }
 }
+
+@Serializable
+data class Topic(
+    val id: Int,
+    val title: String,
+)
 
 @Composable
 fun NavGraph(
@@ -53,16 +58,15 @@ fun NavGraph(
         }
         composable(Screen.Topics.route) {
             TopicsScreen(
-                onTopicClick = { topicId ->
-                    navHostController.navigate(Screen.Phrases.createRoute(topicId))
+                onTopicClick = { topicId, topicName ->
+                    navHostController.navigate(Topic(topicId, topicName))
                     println(topicId)
                 }
             )
         }
-        composable(Screen.Phrases.route) { backStackEntry ->
-            val topicId = NavigationHelper.getIntegerArgument(backStackEntry, "topicId") ?: 1
+        composable<Topic> { backStackEntry ->
             PhrasesScreen(
-                topicId = topicId,
+                topic = backStackEntry.toRoute(),
                 onBackClick = { navHostController.popBackStack() }
             )
         }
