@@ -9,4 +9,5 @@
     <string name="search">Поиск</string>
     <string name="error_loading">"Что-то не так, попробуйте ещё раз"</string>
     <string name="choose_topic">Выберите тему</string>
+    <string name="nothing_found">"Ничего не найдено"</string>
 </resources>

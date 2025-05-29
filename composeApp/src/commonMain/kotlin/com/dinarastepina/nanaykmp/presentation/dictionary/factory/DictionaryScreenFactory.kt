@@ -1,9 +1,11 @@
 package com.dinarastepina.nanaykmp.presentation.dictionary.factory
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,6 +14,7 @@ import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.dinarastepina.nanaykmp.domain.model.DictionaryEntry
 import com.dinarastepina.nanaykmp.domain.model.LANGUAGE
+import com.dinarastepina.nanaykmp.presentation.components.EmptyResults
 import com.dinarastepina.nanaykmp.presentation.components.LanguageSettingsButton
 import com.dinarastepina.nanaykmp.presentation.components.SearchBar
 import com.dinarastepina.nanaykmp.presentation.components.WordCard
@@ -19,6 +22,10 @@ import com.dinarastepina.nanaykmp.presentation.components.paging.ErrorItem
 import com.dinarastepina.nanaykmp.presentation.components.paging.LoadingItem
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.error_loading
+import nanaykmp.composeapp.generated.resources.ic_not_found
+import nanaykmp.composeapp.generated.resources.nothing_found
+
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 object DictionaryScreenFactory {
@@ -61,49 +68,64 @@ object DictionaryScreenFactory {
         modifier: Modifier = Modifier
     ) {
         LazyColumn(
-            modifier = modifier,
+            modifier = modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(
-                count = entries.itemCount,
-                key = { index -> entries[index]?.id ?: index }
-            ) { index ->
-                entries[index]?.let { entry ->
-                    WordCard(
-                        primaryWord = entry.primaryWord,
-                        secondaryWord = entry.secondaryWord
-                    )
+            if (entries.itemSnapshotList.items.isEmpty()) {
+                item(
+                    key = "empty"
+                ) {
+                    EmptyResults()
                 }
-            }
+            } else {
+                items(
+                    count = entries.itemCount,
+                    key = { index -> entries[index]?.id ?: index }
+                ) { index ->
+                    entries[index]?.let { entry ->
+                        WordCard(
+                            primaryWord = entry.primaryWord,
+                            secondaryWord = entry.secondaryWord
+                        )
+                    }
+                }
 
-            entries.apply {
-                when {
-                    loadState.refresh is LoadState.Loading -> {
-                        item { LoadingItem() }
-                    }
-                    loadState.append is LoadState.Loading -> {
-                        item { LoadingItem() }
-                    }
-                    loadState.refresh is LoadState.Error -> {
-                        item {
-                            ErrorItem(
-                                message = (loadState.refresh as LoadState.Error).error.message ?: stringResource(
-                                    Res.string.error_loading),
-                                onRetryClick = { retry() }
-                            )
+                entries.apply {
+                    when {
+                        loadState.refresh is LoadState.Loading -> {
+                            item { LoadingItem() }
                         }
-                    }
-                    loadState.append is LoadState.Error -> {
-                        item {
-                            ErrorItem(
-                                message = (loadState.append as LoadState.Error).error.message ?: stringResource(Res.string.error_loading),
-                                onRetryClick = { retry() }
-                            )
+
+                        loadState.append is LoadState.Loading -> {
+                            item { LoadingItem() }
+                        }
+
+                        loadState.refresh is LoadState.Error -> {
+                            item {
+                                ErrorItem(
+                                    message = (loadState.refresh as LoadState.Error).error.message
+                                        ?: stringResource(
+                                            Res.string.error_loading
+                                        ),
+                                    onRetryClick = { retry() }
+                                )
+                            }
+                        }
+
+                        loadState.append is LoadState.Error -> {
+                            item {
+                                ErrorItem(
+                                    message = (loadState.append as LoadState.Error).error.message
+                                        ?: stringResource(Res.string.error_loading),
+                                    onRetryClick = { retry() }
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     }
-} 
+}
