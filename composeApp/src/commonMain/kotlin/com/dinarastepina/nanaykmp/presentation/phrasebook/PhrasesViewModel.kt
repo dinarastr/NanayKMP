@@ -18,12 +18,12 @@ class PhrasesViewModel(
     private val _phrases = MutableStateFlow<List<Phrase>>(emptyList())
     val phrases: StateFlow<List<Phrase>> = _phrases.asStateFlow()
 
-    private val _currentlyPlayingId = MutableStateFlow<Int?>(null)
-    val currentlyPlayingId: StateFlow<Int?> = _currentlyPlayingId.asStateFlow()
+    private val _currentTrack = MutableStateFlow<AudioTrack?>(null)
+    val currentTrack: StateFlow<AudioTrack?> = _currentTrack.asStateFlow()
 
     init {
         playerManager.setOnTrackCompletedListener {
-            _currentlyPlayingId.value = null
+            _currentTrack.value = null
         }
     }
 
@@ -36,19 +36,45 @@ class PhrasesViewModel(
     }
 
     fun playAudio(phraseId: Int, audioPath: String) {
-        if (_currentlyPlayingId.value == phraseId) {
+        when {
+            _currentTrack.value != null -> {
+                if (_currentTrack.value?.id == phraseId) {
+                    if (playerManager.isPlaying()) {
+                        pauseCurrentTrack()
+                    } else {
+                        playCurrentTrack()
+                    }
+                } else {
+                    playNextTrack(phraseId, audioPath)
+                }
+            }
+            else -> {
+                playNextTrack(phraseId, audioPath)
+            }
+        }
+    }
+
+    private fun playNextTrack(phraseId: Int, audioPath: String) {
+        val track = AudioTrack(
+            id = phraseId,
+            path = "$audioPath.mp3",
+            title = "",
+            isPlaying = true)
+        playerManager.playTrack(track)
+        _currentTrack.value = track
+    }
+
+    private fun pauseCurrentTrack() {
+        _currentTrack.value?.let { track ->
             playerManager.pause()
-            _currentlyPlayingId.value = null
-        } else {
-            playerManager.stop()
-            playerManager.playTrack(
-                AudioTrack(
-                    id = phraseId.toString(),
-                    path = "$audioPath.mp3",
-                    title = "Phrase $phraseId"
-                )
-            )
-            _currentlyPlayingId.value = phraseId
+            _currentTrack.value = track.copy(isPlaying = false)
+        }
+    }
+
+    private fun playCurrentTrack() {
+        _currentTrack.value?.let { track ->
+            playerManager.playCurrentTrack()
+            _currentTrack.value = track.copy(isPlaying = true)
         }
     }
 
@@ -56,4 +82,4 @@ class PhrasesViewModel(
         super.onCleared()
         playerManager.release()
     }
-} 
+}

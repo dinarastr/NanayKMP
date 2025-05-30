@@ -26,7 +26,7 @@ fun PhrasesScreen(
     viewModel: PhrasesViewModel = koinViewModel()
 ) {
     val phrases by viewModel.phrases.collectAsState()
-    val currentlyPlayingId by viewModel.currentlyPlayingId.collectAsState()
+    val currentlyPlayingTrack by viewModel.currentTrack.collectAsState()
 
     LaunchedEffect(topic.id) {
         viewModel.loadPhrases(topic.id)
@@ -57,8 +57,14 @@ fun PhrasesScreen(
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(phrases, key = { it.id }) { phrase ->
+                val isPlaying =
+                    when {
+                        currentlyPlayingTrack?.id == phrase.id && currentlyPlayingTrack?.isPlaying == true -> AudioState.PLAYING
+                        currentlyPlayingTrack?.id == phrase.id && currentlyPlayingTrack?.isPlaying == false -> AudioState.PAUSED
+                        else -> AudioState.STOPPED
+                    }
                 PhraseCard(
-                    isPlaying = if (currentlyPlayingId == phrase.id) AudioState.PLAYING else AudioState.STOPPED,
+                    isPlaying = isPlaying,
                     originalText = phrase.originalText,
                     translation = phrase.translation,
                     onPlayAudio = { viewModel.playAudio(phrase.id, phrase.audioRes) }

@@ -19,6 +19,10 @@ class PlaylistManager(private val audioPlayerFactory: AudioPlayerFactory) {
         player.play()
     }
 
+    fun playCurrentTrack() {
+        player.play()
+    }
+
     fun pause() {
         player.pause()
     }
