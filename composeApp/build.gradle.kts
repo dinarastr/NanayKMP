@@ -1,5 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -47,12 +45,12 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
-            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.5.1")
+            implementation(libs.paging.common)
+            implementation(libs.paging.compose.common)
 
-            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta01")
-            implementation("androidx.lifecycle:lifecycle-viewmodel:2.9.0")
-            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.0-beta01")
+            implementation(libs.jetbrains.navigation.compose)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.jetbrains.navigation.compose)
 
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
@@ -61,17 +59,17 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.navigation)
-            implementation("androidx.datastore:datastore-preferences:1.1.6")
+            implementation(libs.androidx.datastore.preferences)
         }
     }
 }
 
 android {
-    namespace = "com.dinarastepina.nanaykmp"
+    namespace = "com.dinarastr.nanay"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.dinarastepina.nanaykmp"
+        applicationId = "com.dinarastr.nanay"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -84,7 +82,7 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
     compileOptions {
