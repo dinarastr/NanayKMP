@@ -24,6 +24,7 @@ import com.dinarastr.nanay.presentation.components.SearchBar
 import com.dinarastr.nanay.presentation.components.WordCard
 import com.dinarastr.nanay.presentation.components.paging.ErrorItem
 import com.dinarastr.nanay.presentation.components.paging.LoadingItem
+import com.dinarastr.nanay.utils.hideKeyboardOnTap
 import nanaykmp.composeapp.generated.resources.Res
 import nanaykmp.composeapp.generated.resources.error_loading
 import org.jetbrains.compose.resources.stringResource
@@ -41,7 +42,7 @@ object DictionaryScreenFactory {
         Column(
             modifier = Modifier.fillMaxSize().background(
                 color = MaterialTheme.colorScheme.primary
-            ),
+            ).hideKeyboardOnTap(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchBar(
@@ -57,7 +58,7 @@ object DictionaryScreenFactory {
             Spacer(modifier = Modifier.height(8.dp))
             DictionaryList(
                 entries = pagingItems,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().hideKeyboardOnTap()
             )
         }
     }
